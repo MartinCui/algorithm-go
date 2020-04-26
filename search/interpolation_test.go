@@ -1,11 +1,11 @@
 package search
 
 import (
+	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"sort"
 	"testing"
 	"time"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestInterpolationSearch(t *testing.T) {
