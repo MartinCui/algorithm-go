@@ -1,7 +1,7 @@
 package search
 
 import (
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"math/rand"
 	"sort"
 	"testing"
@@ -14,7 +14,7 @@ func TestInterpolationSearch(t *testing.T) {
 	arr := generateSortedArray(99999, key)
 	correctAnswer := sort.SearchInts(arr, key)
 	interpolationAnswer := interpolationSearch(arr, key)
-	assert.Equal(t, arr[correctAnswer], arr[interpolationAnswer])
+	require.Equal(t, arr[correctAnswer], arr[interpolationAnswer])
 }
 
 func BenchmarkInterpolationSearch(b *testing.B) {
