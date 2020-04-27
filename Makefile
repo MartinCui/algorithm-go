@@ -1,5 +1,5 @@
 test:
-	go test -v -count=1 ./search
+	go test -v -count=1 ./$(folder)
 
-benchmark:
-	go test -bench=. -count=1 ./search
+bench:
+	go test -bench=. -count=1 ./$(folder)
