@@ -24,10 +24,6 @@ func TestInsertion(t *testing.T) {
 	testSort(t, insertionSort)
 }
 
-func TestBinarySearchInsertion(t *testing.T) {
-	testSort(t, binarySearchInsertionSort)
-}
-
 func makeRandomSlice(size int) []int {
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	arr := make([]int, size)
@@ -69,8 +65,4 @@ func BenchmarkPopUp(b *testing.B) {
 
 func BenchmarkInsertion(b *testing.B) {
 	benchmarkSort(b, insertionSort)
-}
-
-func BenchmarkBinarySearchInsertion(b *testing.B) {
-	benchmarkSort(b, binarySearchInsertionSort)
 }
