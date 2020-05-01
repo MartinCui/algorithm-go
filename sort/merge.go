@@ -2,10 +2,10 @@ package sort
 
 func mergeSort(arr []int) {
 	aux := make([]int, len(arr))
-	_sort(arr, aux, 0, len(arr) - 1)
+	_mergeSortSort(arr, aux, 0, len(arr) - 1)
 }
 
-func _sort(arr, aux []int, low, high int) {
+func _mergeSortSort(arr, aux []int, low, high int) {
 	if low == high{
 		return
 	}
@@ -16,13 +16,13 @@ func _sort(arr, aux []int, low, high int) {
 		arr[low] = tmp
 	}else{
 		middle := low + ((high - low) / 2)
-		_sort(arr, aux, low, middle)
-		_sort(arr, aux, middle + 1, high)
-		_merge(arr, aux, low, middle, high)
+		_mergeSortSort(arr, aux, low, middle)
+		_mergeSortSort(arr, aux, middle + 1, high)
+		_mergeSortMerge(arr, aux, low, middle, high)
 	}
 }
 
-func _merge(arr, aux []int, low, mid, high int) {
+func _mergeSortMerge(arr, aux []int, low, mid, high int) {
 	for i := low; i <= high; i++ {
 		aux[i] = arr[i]
 	}

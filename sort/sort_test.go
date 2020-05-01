@@ -34,6 +34,10 @@ func TestMerge(t *testing.T){
 	testSort(t, mergeSort)
 }
 
+func TestQuick(t *testing.T){
+	testSort(t, quickSort)
+}
+
 func makeRandomSlice(size int) []int {
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	arr := make([]int, size)
@@ -86,5 +90,9 @@ func BenchmarkShell(b *testing.B) {
 
 func BenchmarkMerge(b *testing.B) {
 	benchmarkSort(b, mergeSort)
+}
+
+func BenchmarkQuick(b *testing.B) {
+	benchmarkSort(b, quickSort)
 }
 
