@@ -13,7 +13,8 @@ func insertionSort(arr []int) []int {
 				break
 			}
 		}
-		if !valueInserted{
+
+		if !valueInserted {
 			arr[0] = valueToInsert
 		}
 	}

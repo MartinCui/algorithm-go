@@ -9,7 +9,9 @@ import (
 )
 
 const (
-	testArraySize = 999
+	testArraySize  = 999
+	benchArraySize = 9999
+	testStoreTimes = 100
 )
 
 func TestSelection(t *testing.T) {
@@ -35,7 +37,7 @@ func makeRandomSlice(size int) []int {
 
 func testSort(t *testing.T, sortFun func([]int) []int) {
 	rq := require.New(t)
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < testStoreTimes; i++ {
 		arr := makeRandomSlice(testArraySize)
 
 		correctResult := make([]int, len(arr))
@@ -48,10 +50,13 @@ func testSort(t *testing.T, sortFun func([]int) []int) {
 }
 
 func benchmarkSort(b *testing.B, sortFun func([]int) []int) {
-	arr := makeRandomSlice(9999)
+	randomArrays := make([][]int, b.N)
+	for i := 0; i < len(randomArrays); i++ {
+		randomArrays[i] = makeRandomSlice(benchArraySize)
+	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = sortFun(arr)
+		_ = sortFun(randomArrays[i])
 	}
 }
 
