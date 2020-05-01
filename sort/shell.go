@@ -1,6 +1,6 @@
 package sort
 
-func shellSort(arr []int) []int {
+func shellSort(arr []int){
 	hopRoot := 3
 	var hops []int
 	for hop := 1; hop < len(arr); hop = hopRoot*hop + 1 {
@@ -17,6 +17,4 @@ func shellSort(arr []int) []int {
 			}
 		}
 	}
-
-	return arr
 }

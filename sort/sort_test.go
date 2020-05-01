@@ -30,6 +30,10 @@ func TestShell(t *testing.T){
 	testSort(t, shellSort)
 }
 
+func TestMerge(t *testing.T){
+	testSort(t, mergeSort)
+}
+
 func makeRandomSlice(size int) []int {
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	arr := make([]int, size)
@@ -39,7 +43,7 @@ func makeRandomSlice(size int) []int {
 	return arr
 }
 
-func testSort(t *testing.T, sortFun func([]int) []int) {
+func testSort(t *testing.T, sortFun func([]int)) {
 	rq := require.New(t)
 	for i := 0; i < testStoreTimes; i++ {
 		arr := makeRandomSlice(testArraySize)
@@ -47,20 +51,20 @@ func testSort(t *testing.T, sortFun func([]int) []int) {
 		correctResult := make([]int, len(arr))
 		copy(correctResult, arr)
 
-		result := sortFun(arr)
+		sortFun(arr)
 		sort.Ints(correctResult)
-		rq.Equal(correctResult, result)
+		rq.Equal(correctResult, arr)
 	}
 }
 
-func benchmarkSort(b *testing.B, sortFun func([]int) []int) {
+func benchmarkSort(b *testing.B, sortFun func([]int)) {
 	randomArrays := make([][]int, b.N)
 	for i := 0; i < len(randomArrays); i++ {
 		randomArrays[i] = makeRandomSlice(benchArraySize)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = sortFun(randomArrays[i])
+		sortFun(randomArrays[i])
 	}
 }
 
@@ -78,5 +82,9 @@ func BenchmarkInsertion(b *testing.B) {
 
 func BenchmarkShell(b *testing.B) {
 	benchmarkSort(b, shellSort)
+}
+
+func BenchmarkMerge(b *testing.B) {
+	benchmarkSort(b, mergeSort)
 }
 
