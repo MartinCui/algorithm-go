@@ -1,4 +1,8 @@
-package sort
+package datastructure
+
+import (
+	common "github.com/martincui/algorithm"
+)
 
 type heapPriorityQueue struct {
 	binaryHeap []int
@@ -47,7 +51,7 @@ func (pq *heapPriorityQueue) sinkDown(position int) {
 		}
 		if rightChildPosition > pq.size{
 			if currentNodeValue < pq.binaryHeap[leftChildPosition]{
-				exchange(pq.binaryHeap, currentPosition, leftChildPosition)
+				common.Exchange(pq.binaryHeap, currentPosition, leftChildPosition)
 			}
 
 			break
@@ -61,7 +65,7 @@ func (pq *heapPriorityQueue) sinkDown(position int) {
 			break
 		}
 
-		exchange(pq.binaryHeap, currentPosition, maxChildPosition)
+		common.Exchange(pq.binaryHeap, currentPosition, maxChildPosition)
 		currentPosition = maxChildPosition
 	}
 }
@@ -70,7 +74,7 @@ func (pq *heapPriorityQueue) swimUp(position int) {
 	for currentPosition := position; ; {
 		abovePosition := currentPosition / 2
 		if abovePosition > 0 && pq.binaryHeap[abovePosition] < pq.binaryHeap[currentPosition] {
-			exchange(pq.binaryHeap, currentPosition, abovePosition)
+			common.Exchange(pq.binaryHeap, currentPosition, abovePosition)
 			currentPosition = abovePosition
 		} else {
 			break

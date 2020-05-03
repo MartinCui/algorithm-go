@@ -1,6 +1,7 @@
 package datastructure
 
 import (
+	common "github.com/martincui/algorithm"
 	"github.com/stretchr/testify/require"
 	"math"
 	"testing"
@@ -76,4 +77,28 @@ func requireExpressionResult(rq *require.Assertions, expression string, expected
 	result, err := EvaluateExpression(expression)
 	rq.NoError(err)
 	rq.LessOrEqual(math.Abs(expectedResult-result), 0.00000001)
+}
+
+func TestBinaryHeap(t *testing.T) {
+	rq := require.New(t)
+	heap := newHeapPriorityQueue()
+	randomSlice := common.MakeRandomSlice(10, true)
+	for _, v := range randomSlice {
+		heap.add(v)
+	}
+	randomSlice2 := common.MakeRandomSlice(10, true)
+	for i := 0; i < len(randomSlice)/2; i++ {
+		heap.popMax()
+		heap.add(randomSlice2[i])
+		heap.add(randomSlice2[i] + len(randomSlice)/2)
+	}
+
+	previousMax := math.MaxInt32
+	for count := 0; count < int(float32(len(randomSlice))*1.5); count++ {
+		currentMax := heap.popMax()
+		rq.GreaterOrEqual(previousMax, currentMax)
+		previousMax = currentMax
+	}
+
+	rq.Equal(0, heap.size)
 }

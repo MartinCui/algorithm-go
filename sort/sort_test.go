@@ -1,12 +1,10 @@
 package sort
 
 import (
+	common "github.com/martincui/algorithm"
 	"github.com/stretchr/testify/require"
-	"math"
-	"math/rand"
 	"sort"
 	"testing"
-	"time"
 )
 
 const (
@@ -39,51 +37,10 @@ func TestQuick(t *testing.T) {
 	testSort(t, quickSort)
 }
 
-func TestBinaryHeap(t *testing.T) {
-	rq := require.New(t)
-	heap := newHeapPriorityQueue()
-	randomSlice := makeRandomSlice(10, true)
-	for _, v := range randomSlice {
-		heap.add(v)
-	}
-	randomSlice2 := makeRandomSlice(10, true)
-	for i := 0; i < len(randomSlice)/2; i++ {
-		heap.popMax()
-		heap.add(randomSlice2[i])
-		heap.add(randomSlice2[i] + len(randomSlice)/2)
-	}
-
-	previousMax := math.MaxInt32
-	for count := 0; count < int(float32(len(randomSlice))*1.5); count++ {
-		currentMax := heap.popMax()
-		rq.GreaterOrEqual(previousMax, currentMax)
-		previousMax = currentMax
-	}
-
-	rq.Equal(0, heap.size)
-}
-
-func makeRandomSliceNoLimit(size int) []int {
-	return makeRandomSlice(size, false)
-}
-
-func makeRandomSlice(size int, limitMax bool) []int {
-	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
-	arr := make([]int, size)
-	for i := 0; i < len(arr); i++ {
-		if limitMax {
-			arr[i] = rnd.Intn(100)
-		} else {
-			arr[i] = rnd.Int()
-		}
-	}
-	return arr
-}
-
 func testSort(t *testing.T, sortFun func([]int)) {
 	rq := require.New(t)
 	for i := 0; i < testStoreTimes; i++ {
-		arr := makeRandomSliceNoLimit(testArraySize)
+		arr := common.MakeRandomSliceNoLimit(testArraySize)
 
 		correctResult := make([]int, len(arr))
 		copy(correctResult, arr)
@@ -97,7 +54,7 @@ func testSort(t *testing.T, sortFun func([]int)) {
 func benchmarkSort(b *testing.B, sortFun func([]int)) {
 	randomArrays := make([][]int, b.N)
 	for i := 0; i < len(randomArrays); i++ {
-		randomArrays[i] = makeRandomSliceNoLimit(benchArraySize)
+		randomArrays[i] = common.MakeRandomSliceNoLimit(benchArraySize)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {

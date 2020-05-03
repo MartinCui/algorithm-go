@@ -1,5 +1,7 @@
 package sort
 
+import common "github.com/martincui/algorithm"
+
 func quickSort(arr []int) {
 	_quickSortSort(arr, 0, len(arr)-1)
 }
@@ -26,9 +28,9 @@ func _quickSortPartition(arr []int, low, high int) int {
 		if leftIndex >= rightIndex{
 			break
 		}
-		exchange(arr, leftIndex, rightIndex)
+		common.Exchange(arr, leftIndex, rightIndex)
 	}
 
-	exchange(arr, rightIndex, low)
+	common.Exchange(arr, rightIndex, low)
 	return rightIndex
 }
