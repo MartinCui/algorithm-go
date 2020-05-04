@@ -21,7 +21,12 @@ func TestBinarySearch(t *testing.T) {
 	test(t, NewBinarySearchSt())
 }
 
+func TestBinarySearchTree(t *testing.T) {
+	test(t, NewBinarySearchTreeSt())
+}
+
 func test(t *testing.T, st SymbolTable) {
+	nativeSt := SymbolTable(&nativeMapSt{m: make(map[Comparable]interface{})})
 	rq := require.New(t)
 
 	for i := 0; i < 100; i++ {
@@ -33,14 +38,13 @@ func test(t *testing.T, st SymbolTable) {
 			keys[i] = testComparable{v: ik}
 		}
 
-		correctResult := make(map[testComparable]int)
 		for i, key := range keys {
 			st.Set(key, values[i])
-			correctResult[key] = values[i]
+			nativeSt.Set(key, values[i])
 		}
 
 		for _, key := range keys {
-			rq.Equal(correctResult[key], st.Get(key))
+			rq.Equal(nativeSt.Get(key), st.Get(key))
 		}
 	}
 }
@@ -48,6 +52,28 @@ func test(t *testing.T, st SymbolTable) {
 func BenchmarkBinarySearch(b *testing.B) {
 	benchmark(b, NewBinarySearchSt())
 }
+
+func BenchmarkBinarySearchTree(b *testing.B) {
+	benchmark(b, NewBinarySearchTreeSt())
+}
+
+func BenchmarkNativeMap(b *testing.B) {
+	benchmark(b, &nativeMapSt{m: make(map[Comparable]interface{}, 0)})
+}
+
+type nativeMapSt struct {
+	m map[Comparable]interface{}
+}
+
+func (nm *nativeMapSt) Get(key Comparable) interface{} {
+	return nm.m[key]
+}
+
+func (nm *nativeMapSt) Set(key Comparable, value interface{}) {
+	nm.m[key] = value
+}
+
+func (nm *nativeMapSt) Size() int { return len(nm.m) }
 
 func benchmark(b *testing.B, st SymbolTable) {
 	size := 9999
