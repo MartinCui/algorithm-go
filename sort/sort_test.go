@@ -37,6 +37,10 @@ func TestQuick(t *testing.T) {
 	testSort(t, quickSort)
 }
 
+func TestHeap(t *testing.T) {
+	testSort(t, heapSort)
+}
+
 func testSort(t *testing.T, sortFun func([]int)) {
 	rq := require.New(t)
 	for i := 0; i < testStoreTimes; i++ {
@@ -84,4 +88,8 @@ func BenchmarkMerge(b *testing.B) {
 
 func BenchmarkQuick(b *testing.B) {
 	benchmarkSort(b, quickSort)
+}
+
+func BenchmarkHeap(b *testing.B) {
+	benchmarkSort(b, heapSort)
 }
