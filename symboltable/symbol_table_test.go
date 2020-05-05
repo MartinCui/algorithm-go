@@ -25,6 +25,10 @@ func TestBinarySearchTree(t *testing.T) {
 	test(t, NewBinarySearchTreeSt())
 }
 
+func TestRedBlackTree(t *testing.T) {
+	test(t, NewRedBlackTreeSt())
+}
+
 func test(t *testing.T, st SymbolTable) {
 	nativeSt := SymbolTable(&nativeMapSt{m: make(map[Comparable]interface{})})
 	rq := require.New(t)
@@ -55,6 +59,10 @@ func BenchmarkBinarySearch(b *testing.B) {
 
 func BenchmarkBinarySearchTree(b *testing.B) {
 	benchmark(b, NewBinarySearchTreeSt())
+}
+
+func BenchmarkRedBlackTree(b *testing.B) {
+	benchmark(b, NewRedBlackTreeSt())
 }
 
 func BenchmarkNativeMap(b *testing.B) {
