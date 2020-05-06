@@ -41,6 +41,10 @@ func (tc testComparable) CompareTo(other interface{}) int {
 	return tc.v - typedOther.v
 }
 
+func (tc testComparable) HashCode() int32 {
+	return int32(tc.v)
+}
+
 func TestBinarySearch(t *testing.T) {
 	test(t, NewBinarySearchSt())
 }
@@ -51,6 +55,10 @@ func TestBinarySearchTree(t *testing.T) {
 
 func TestRedBlackTree(t *testing.T) {
 	test(t, NewRedBlackTreeSt())
+}
+
+func TestHashTable(t *testing.T) {
+	test(t, NewHashTable())
 }
 
 func test(t *testing.T, st SymbolTable) {
@@ -99,6 +107,14 @@ func BenchmarkRedBlackTree(b *testing.B) {
 
 func BenchmarkRedBlackTreeDescendingInput(b *testing.B) {
 	benchmarkDescendingInput(b, NewRedBlackTreeSt())
+}
+
+func BenchmarkHashTable(b *testing.B) {
+	benchmark(b, NewHashTable())
+}
+
+func BenchmarkHashTableDescendingInput(b *testing.B) {
+	benchmarkDescendingInput(b, NewHashTable())
 }
 
 func BenchmarkNativeMap(b *testing.B) {

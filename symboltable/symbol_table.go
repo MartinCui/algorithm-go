@@ -2,6 +2,7 @@ package symboltable
 
 type Comparable interface {
 	CompareTo(other interface{}) int
+	HashCode() int32
 }
 
 type SymbolTable interface {
