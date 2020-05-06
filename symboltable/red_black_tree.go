@@ -64,12 +64,9 @@ func (rb *redBlackTreeSt) set(node *rbtNode, key Comparable, value interface{}) 
 	if (node.left == nil || !node.left.red) && node.right != nil && node.right.red {
 		return rb.leftRotate(node)
 	} else if node.left != nil && node.left.red && node.left.left != nil && node.left.left.red {
-		return rb.rightRotate(node)
+		return rb.flipDoubleRed(rb.rightRotate(node))
 	} else if node.left != nil && node.left.red && node.right != nil && node.right.red {
-		node.left.red = false
-		node.right.red = false
-		node.red = true
-		return node
+		return rb.flipDoubleRed(node)
 	}
 
 	return node
@@ -91,6 +88,13 @@ func (rb *redBlackTreeSt) rightRotate(node *rbtNode) *rbtNode {
 	left.red = node.red
 	node.red = true
 	return left
+}
+
+func (rb *redBlackTreeSt) flipDoubleRed(node *rbtNode) *rbtNode {
+	node.left.red = false
+	node.right.red = false
+	node.red = true
+	return node
 }
 
 func (rb *redBlackTreeSt) Size() int {

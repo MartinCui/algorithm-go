@@ -4,9 +4,33 @@ import (
 	common "github.com/martincui/algorithm"
 	"github.com/stretchr/testify/require"
 	"math/rand"
+	"sort"
 	"testing"
 	"time"
 )
+
+const benchmarkSize = 20000
+
+var (
+	benchmarkRandomSlice     []int
+	benchmarkDescendingSlice []int
+)
+
+func TestMain(m *testing.M) {
+	rd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	benchmarkRandomSlice = make([]int, benchmarkSize)
+	benchmarkDescendingSlice = make([]int, benchmarkSize)
+	for i := 0; i < benchmarkSize; i++ {
+		benchmarkRandomSlice[i] = rd.Int()
+		benchmarkDescendingSlice[i] = rd.Int()
+	}
+
+	sort.Slice(benchmarkDescendingSlice, func(i, j int) bool {
+		return benchmarkDescendingSlice[i] > benchmarkDescendingSlice[j]
+	})
+
+	m.Run()
+}
 
 type testComparable struct {
 	v int
@@ -57,16 +81,32 @@ func BenchmarkBinarySearch(b *testing.B) {
 	benchmark(b, NewBinarySearchSt())
 }
 
+func BenchmarkBinarySearchDescendingInput(b *testing.B) {
+	benchmarkDescendingInput(b, NewBinarySearchSt())
+}
+
 func BenchmarkBinarySearchTree(b *testing.B) {
 	benchmark(b, NewBinarySearchTreeSt())
+}
+
+func BenchmarkBinarySearchTreeDescendingInput(b *testing.B) {
+	benchmarkDescendingInput(b, NewBinarySearchTreeSt())
 }
 
 func BenchmarkRedBlackTree(b *testing.B) {
 	benchmark(b, NewRedBlackTreeSt())
 }
 
+func BenchmarkRedBlackTreeDescendingInput(b *testing.B) {
+	benchmarkDescendingInput(b, NewRedBlackTreeSt())
+}
+
 func BenchmarkNativeMap(b *testing.B) {
 	benchmark(b, &nativeMapSt{m: make(map[Comparable]interface{}, 0)})
+}
+
+func BenchmarkNativeMapDescendingInput(b *testing.B) {
+	benchmarkDescendingInput(b, &nativeMapSt{m: make(map[Comparable]interface{}, 0)})
 }
 
 type nativeMapSt struct {
@@ -84,13 +124,23 @@ func (nm *nativeMapSt) Set(key Comparable, value interface{}) {
 func (nm *nativeMapSt) Size() int { return len(nm.m) }
 
 func benchmark(b *testing.B, st SymbolTable) {
-	size := 9999
 	rd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		for j := 0; j < size; j++ {
-			st.Set(testComparable{v: rd.Int()}, rd.Int())
+		for j := 0; j < benchmarkSize; j++ {
+			st.Set(testComparable{v: benchmarkRandomSlice[j]}, rd.Int())
+			_ = st.Get(testComparable{v: rd.Int()})
+		}
+	}
+}
+
+func benchmarkDescendingInput(b *testing.B, st SymbolTable) {
+	rd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < benchmarkSize; j++ {
+			st.Set(testComparable{v: benchmarkDescendingSlice[j]}, rd.Int())
 			_ = st.Get(testComparable{v: rd.Int()})
 		}
 	}
