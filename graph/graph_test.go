@@ -2,6 +2,7 @@ package graph
 
 import (
 	"github.com/stretchr/testify/require"
+	"log"
 	"testing"
 )
 
@@ -45,6 +46,10 @@ func assertSearch(rq *require.Assertions, s Search, g *UndirectedGraph, expected
 			canReach = false
 		}
 		rq.Equal(canReach, s.CanReach(i))
+
+		if canReach{
+			log.Printf("%d %v %d", s.Root(), s.PathTo(i), i)
+		}
 	}
 	rq.Equal(len(expected), s.ReachableVertexCount())
 }
