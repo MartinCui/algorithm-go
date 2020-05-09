@@ -102,3 +102,20 @@ func TestBinaryHeap(t *testing.T) {
 
 	rq.Equal(0, heap.size)
 }
+
+func TestTrie(t *testing.T) {
+	rq := require.New(t)
+	trie := NewTrie(5)
+	trie.Set([]int{2, 3, 4}, "234")
+	trie.Set([]int{0, 1}, "01")
+	trie.Set([]int{0, 1, 2}, "012")
+	trie.Set([]int{0, 1, 2, 4}, "0124")
+	trie.Set([]int{2, 4}, "24")
+	rq.Equal("234", trie.Get([]int{2, 3, 4}))
+	rq.Equal("01", trie.Get([]int{0, 1}))
+	rq.Equal("012", trie.Get([]int{0, 1, 2}))
+	rq.Equal("0124", trie.Get([]int{0, 1, 2, 4}))
+	rq.Equal("24", trie.Get([]int{2, 4}))
+	rq.Nil(trie.Get([]int{0}))
+	rq.Nil(trie.Get([]int{3, 4}))
+}
