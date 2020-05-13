@@ -70,3 +70,40 @@ func TestComponent(t *testing.T) {
 		log.Printf("%d in component %d", v, cp.InComponentId(v))
 	}
 }
+
+func TestTopologicalSort(t *testing.T) {
+	rq := require.New(t)
+	result, err := topologicalSortProjects([]dependency{
+		{"a", "d"},
+		{"f", "b"},
+		{"b", "d"},
+		{"f", "a"},
+		{"d", "c"},
+	})
+	rq.NoError(err)
+	rq.Equal([]string{"f", "a", "b", "d", "c"}, result)
+
+	result, err = topologicalSortProjects([]dependency{
+		{"f", "c"},
+		{"f", "b"},
+		{"c", "a"},
+		{"b", "a"},
+		{"b", "e"},
+		{"a", "e"},
+		{"d", "g"},
+	})
+	rq.NoError(err)
+	rq.Equal([]string{"f", "d", "c", "b", "g", "a", "e"}, result)
+
+	result, err = topologicalSortProjects([]dependency{
+		{"f", "c"},
+		{"f", "b"},
+		{"c", "a"},
+		{"b", "a"},
+		{"b", "e"},
+		{"a", "e"},
+		{"d", "g"},
+		{"e", "f"},
+	})
+	rq.Error(err)
+}
