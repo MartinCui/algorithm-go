@@ -41,6 +41,15 @@ func TestHeap(t *testing.T) {
 	testSort(t, heapSort)
 }
 
+// counter sort has strict requirement for value diff range
+//func TestCounter(t *testing.T) {
+//	testSort(t, counterSort)
+//}
+
+func TestRadix(t *testing.T) {
+	testSort(t, radixSort)
+}
+
 func testSort(t *testing.T, sortFun func([]int)) {
 	rq := require.New(t)
 	for i := 0; i < testStoreTimes; i++ {
@@ -92,4 +101,12 @@ func BenchmarkQuick(b *testing.B) {
 
 func BenchmarkHeap(b *testing.B) {
 	benchmarkSort(b, heapSort)
+}
+
+func BenchmarkRadix(b *testing.B) {
+	benchmarkSort(b, radixSort)
+}
+
+func BenchmarkBuiltIn(b *testing.B) {
+	benchmarkSort(b, sort.Ints)
 }

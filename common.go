@@ -22,7 +22,7 @@ func MakeRandomSlice(size int, limitMax bool) []int {
 		if limitMax {
 			arr[i] = rnd.Intn(100)
 		} else {
-			arr[i] = rnd.Int()
+			arr[i] = int(rnd.Int31())
 		}
 	}
 	return arr
