@@ -19,8 +19,8 @@ func TestBinarySearch(t *testing.T) {
 func testSearch(t *testing.T, n int, searchFunc func(a []int, x int) int) {
 	for i := 0; i < n; i++ {
 		r := rand.New(rand.NewSource(time.Now().UnixNano()))
-		key := r.Intn(999)
-		arr := generateSortedArray(99999, key)
+		key := r.Int()
+		arr := generateSortedArray(10000, key)
 		correctAnswer := sort.SearchInts(arr, key)
 		searchAnswer := searchFunc(arr, key)
 		require.Equal(t, arr[correctAnswer], arr[searchAnswer])
@@ -54,7 +54,7 @@ func generateSortedArray(size, includeValue int) []int {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	rawArray := make([]int, size)
 	for i := 0; i < size-1; i++ {
-		rawArray[i] = r.Intn(99999)
+		rawArray[i] = r.Int()
 	}
 	rawArray[size-1] = includeValue
 

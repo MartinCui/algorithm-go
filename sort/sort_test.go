@@ -107,6 +107,6 @@ func BenchmarkRadix(b *testing.B) {
 	benchmarkSort(b, radixSort)
 }
 
-func BenchmarkBuiltIn(b *testing.B) {
+func BenchmarkGolangSort(b *testing.B) {
 	benchmarkSort(b, sort.Ints)
 }
